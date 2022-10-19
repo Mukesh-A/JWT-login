@@ -1,14 +1,38 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
+import axios from "axios";
+
 export default function Login() {
+  const navigate = useNavigate();
   const [values, setValues] = useState({
     email: "",
     password: "",
   });
-
-  const handelSubmit = (e) => {
+  const generateError = (err) => toast.error(err, { position: "bottom-right" });
+  const handelSubmit = async (e) => {
     e.preventDefault();
+    try {
+      const { data } = await axios.post(
+        "http://localhost:4000/login",
+        {
+          ...values,
+        },
+        { withCredentials: true }
+      );
+      // console.log(data);
+      if (data) {
+        if (data.errors) {
+          const { email, password } = data.errors;
+          if (email) generateError(email);
+          else if (password) generateError(password);
+        } else {
+          navigate("/");
+        }
+      }
+    } catch (err) {
+      console.log(err);
+    }
   };
   return (
     <div className="container">

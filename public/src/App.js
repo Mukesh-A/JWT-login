@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Secret from "./pages/Secret";
+import "react-toastify/dist/ReactToastify.css";
 export default function App() {
   return (
     <BrowserRouter>
@@ -14,7 +15,6 @@ export default function App() {
     </BrowserRouter>
   );
 }
-
 
 // NOTES:
 
